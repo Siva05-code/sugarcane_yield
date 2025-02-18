@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-5"><b>🌱 Sugarcane Yield Prediction 🌾🚜</b></h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="mb-4">
+                <label class="form-label">Historical Yield</label>
+                <input type="text" name="historical_yield" class="form-control" placeholder="Enter previous yield in tons/ha  (40 - 150)" required>
+            </div>
+            
+            <div class="mb-4">
+                <label class="form-label">Rainfall (mm)</label>
+                <input type="text" name="rainfall" class="form-control" placeholder="Enter rainfall in mm (500 - 2500)" required>
+            </div>
+            
+            <div class="mb-4">
+                <label class="form-label">Humidity (%)</label>
+                <input type="text" name="humidity" class="form-control" placeholder="Enter humidity percentage (40 - 90)" required>
+            </div>
+            
+            <div class="mb-4">
+                <label class="form-label">Soil pH</label>
+                <input type="text" name="soil_ph" class="form-control" placeholder="Enter soil pH level (4.5 - 8.5)" required>
+            </div>
+            
+            <div class="mb-4">
+                <label class="form-label">Organic Content (%)</label>
+                <input type="text" name="organic_content" class="form-control" placeholder="Enter organic content percentage (0.5 - 5.0)" required>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-success w-50">Predict Yield</button>
+            </div>
+        </form>
+        
+        {% if predicted_yield is not None %}
+            <div class="container mt-5 text-center">
+                <h2 class="text-danger"><b>Prediction Result</b></h2>
+                
+                <div class="card shadow-lg p-4 mt-1">
+                    <h3 class="text-link">Estimated Sugarcane Yield:</h3>
+                    <p style="color:green; font-size: 50px; font-weight: bold;">{{ predicted_yield }} Tons/ha</p>
+                    
+                    <div class="text-center">
+                        <a href="{% url 'predict_yield' %}" class="btn btn-light mt-3 w-50">🔄 <strong>Predict Again</strong></a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
