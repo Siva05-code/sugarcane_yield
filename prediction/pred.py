@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[51]:
-
-
 import pandas as pd
 import numpy as np
 import joblib
@@ -78,19 +72,13 @@ r2 = r2_score(y_test, y_pred)
 print(f"Mean Squared Error: {mse:.4f}")
 print(f"R-Squared Score: {r2:.4f}")
 
-with open('yield4_prediction_model.pkl', 'wb') as model_file:
+with open('yield5_prediction_model.pkl', 'wb') as model_file:
     pickle.dump(regressor, model_file)
 print("Model saved successfully!")
 
 # Save the fitted preprocessor
-joblib.dump(preprocessor, "scaler4.pkl")
+joblib.dump(preprocessor, "scaler5.pkl")
 print("Fitted Scaler saved successfully!")
-
-
-# In[52]:
-
-
-import joblib
 
 scaler = joblib.load("scaler4.pkl")
 print(type(scaler))  
@@ -98,13 +86,26 @@ print(type(scaler))
 model = joblib.load("yield4_prediction_model.pkl")
 print(type(model))  
 
+# Load the trained model and scaler
+model = joblib.load("yield5_prediction_model.pkl")
+scaler = joblib.load("scaler5.pkl")  # ColumnTransformer with only numerical scaling
 
-# In[53]:
+# Define new input data (Ensure values match expected range)
+new_data = pd.DataFrame([[
+    4.5,   # Historical_Yield
+    120,   # Rainfall (mm)
+    80,    # Humidity (%)
+    6.5,   # Soil_pH
+    3.2    # Organic_Content (%)
+]], columns=["Historical_Yield", "Rainfall", "Humidity", "Soil_pH", "Organic_Content"])
 
+# Apply the same scaling transformation
+processed_data = scaler.transform(new_data)
 
-import numpy as np
-import pandas as pd
-import joblib
+# Make a prediction
+prediction = model.predict(processed_data)
+
+print("Predicted Yield:", prediction[0])
 
 # Load the trained model and scaler
 model = joblib.load("yield4_prediction_model.pkl")
@@ -128,31 +129,14 @@ prediction = model.predict(processed_data)
 print("Predicted Yield:", prediction[0])
 
 
-# In[59]:
+from sklearn.metrics import mean_absolute_error
 
+# Calculate evaluation metrics
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
 
-import numpy as np
-import pandas as pd
-import joblib
-
-# Load the trained model and scaler
-model = joblib.load("yield4_prediction_model.pkl")
-scaler = joblib.load("scaler4.pkl")  # ColumnTransformer with only numerical scaling
-
-# Define new input data (Ensure values match expected range)
-new_data = pd.DataFrame([[
-    4.5,   # Historical_Yield
-    120,   # Rainfall (mm)
-    80,    # Humidity (%)
-    6.5,   # Soil_pH
-    3.2    # Organic_Content (%)
-]], columns=["Historical_Yield", "Rainfall", "Humidity", "Soil_pH", "Organic_Content"])
-
-# Apply the same scaling transformation
-processed_data = scaler.transform(new_data)
-
-# Make a prediction
-prediction = model.predict(processed_data)
-
-print("Predicted Yield:", prediction[0])
+print(f"Mean Squared Error (MSE): {mse:.2f}")
+print(f"Mean Absolute Error (MAE): {mae:.2f}")
+print(f"R-Squared Score (R²): {r2:.2f}")
 
