@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import SugarcaneYield
+from .models import db
 
-admin.site.register(SugarcaneYield)
+admin.site.register(db)
