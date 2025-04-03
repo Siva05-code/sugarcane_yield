@@ -14,4 +14,5 @@ class first(models.Model):
     humidity = models.FloatField(null=True)
     soil_ph = models.FloatField(null=True)
     organic_content = models.FloatField(null=True)
-    predicted_yield = models.FloatField(null=True, blank=True)
+    def __str__(self):
+        return self.name
