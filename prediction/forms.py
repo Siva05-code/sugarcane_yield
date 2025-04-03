@@ -1,7 +1,7 @@
 from django import forms
-from .models import SugarcaneYield
+from .models import db
 
 class SugarcaneYieldForm(forms.ModelForm):
     class Meta:
-        model = SugarcaneYield
+        model = db
         fields = ['historical_yield', 'rainfall', 'humidity', 'soil_ph', 'organic_content']
