@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import db
+from .models import first
 
-admin.site.register(db)
+admin.site.register(first)
