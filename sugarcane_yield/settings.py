@@ -21,8 +21,7 @@ SECRET_KEY = "django-insecure-5zw!mt#bi(fal3ofx1!n_(1!_-0t^xan+%o(rinnj8!e1cq2cg
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ['localhost', '*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -43,6 +42,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = "sugarcane_yield.urls"
@@ -100,6 +100,7 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "prediction/static"),  # Static files directory
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Login and logout redirects
 LOGIN_REDIRECT_URL = "predict_yield"
@@ -107,3 +108,4 @@ LOGOUT_REDIRECT_URL = "home"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
